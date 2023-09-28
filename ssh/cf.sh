@@ -1,18 +1,18 @@
 #!/bin/bash
-# // String / Request Data
-# Getting
+# Edition : Stable Edition V3.0
+# Auther  : rapzvpn
+# (C) Copyright 2023
+# =========================================
 MYIP=$(wget -qO- ipinfo.io/ip);
-#MYIP=$(wget -qO- https://ipv4.icanhazip.com);
-#MYIP=$(wget -qO- https://ipv6.icanhazip.com);
 clear
-apt install jq curl -y
-sub=$(</dev/urandom tr -dc a-z | head -c4)
+apt install jq curl -y >/dev/null 2>&1
 DOMAIN=madurakocak.my.id
+sub=$(</dev/urandom tr -dc a-x1-9 | head -c5 | tr -d '\r' | tr -d '\r\n')
 SUB_DOMAIN=${sub}vip.madurakocak.my.id
 CF_ID=shabudin039@gmail.com
 CF_KEY=746762286a7ac6f54e7c51565e2b19a4c1ab8
 set -euo pipefail
-IP=$(curl -sS ifconfig.me);
+IP=$(wget -qO- ifconfig.me/ip);
 echo "Updating DNS for ${SUB_DOMAIN}..."
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
      -H "X-Auth-Email: ${CF_ID}" \
@@ -37,13 +37,8 @@ RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_r
      -H "X-Auth-Key: ${CF_KEY}" \
      -H "Content-Type: application/json" \
      --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
-     
 echo "Host : $SUB_DOMAIN"
+echo "IP=" >> /var/lib/rapzvpn/ipvps.conf
+echo $SUB_DOMAIN > /etc/xray/domain
 echo $SUB_DOMAIN > /root/domain
-echo "IP=$SUB_DOMAIN" > /var/lib/SIJA/ipvps.conf
-sleep 1
-yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
-yellow "Domain added.."
-sleep 3
-domain=$(cat /root/domain)
-cp -r /root/domain /etc/xray/domain
+rm -f /root/cf.sh
