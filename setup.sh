@@ -295,38 +295,53 @@ function base_package() {
     
 }
 clear
-# Fungsi input domain
-function pasang_domain() {
-echo -e ""
-clear
-    echo -e "   .----------------------------------."
-echo -e "   |\e[1;32mPlease Select a Domain Type Below \e[0m|"
-echo -e "   '----------------------------------'"
-echo -e "     \e[1;32m1)\e[0m Enter Your Subdomain"
-echo -e "     \e[1;32m2)\e[0m Use a Random Subdomain"
-echo -e "   ------------------------------------"
-read -p "   Please select numbers 1-2 or Any Button(Random) : " host
-echo ""
-if [[ $host == "1" ]]; then
-echo -e "   \e[1;32mPlease Enter Your Subdomain $NC"
-read -p "   Subdomain: " host1
-echo "IP=" >> /var/lib/kyt/ipvps.conf
-echo $host1 > /etc/xray/domain
-echo $host1 > /root/domain
-echo ""
-elif [[ $host == "2" ]]; then
-#install cf
-wget ${REPO}ssh/cf.sh && chmod +x cf.sh && ./cf.sh
-rm -f /root/cf.sh
-clear
-else
-print_install "Random Subdomain/Domain is Used"
-wget ${REPO}cf.sh && chmod +x cf.sh && ./cf.sh
-rm -f /root/cf.sh
-clear
-    fi
-}
+yellow "Add Domain for vmess/vless/trojan dll"
+#echo " "
+#read -rp "Input ur domain : " -e pp
+   # if [ -z $pp ]; then
+   #     echo -e "
+   #     Nothing input for domain!
+    #    Then a random domain will be created"
+   #else
+   #     echo "$pp" > /root/scdomain
+#	echo "$pp" > /etc/xray/scdomain
+#	echo "$pp" > /etc/xray/domain
+#	echo "$pp" > /etc/v2ray/domain
+#	echo $pp > /root/domain
+ #       echo "IP=$pp" > /var/lib/SIJA/ipvps.conf
+  #  fi
+    
+echo -e "$white\033[0;34m┌─────────────────────────────────────────┐${NC}"
+echo -e "                          ⇱ INSTALL DOMAIN ⇲            "
+echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
+echo "1. Use Domain Script 01"
+echo "2. Use Domain Script 02"
+echo "2. Use Private Domain "
+echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
+echo -e""
+read -rp "Choose Your Domain Installation : " dom 
 
+if test $dom -eq 1; then
+clear
+wget -q -O /root/cf.sh "https://raw.githubusercontent.com/rapzvpn/super/main/cf.sh"
+chmod +x /root/cf.sh
+./cf.sh
+elif test $dom -eq 2; then
+wget -q -O /root/cf1.sh "https://raw.githubusercontent.com/rapzvpn/super/main/cf1.sh"
+chmod +x /root/cf1.sh
+./cf1.sh
+elif test $dom -eq 3; then
+read -rp "Domain/Host: " -e host
+echo "IP=$host" >> /var/lib/SIJA/ipvps.conf
+ "IP=$host" >> /etc/xray/domain
+ 
+fi
+echo -e "${GREEN}Done!${NC}"
+sleep 2
+clear
+echo "IP=$host" >> /var/lib/SIJA/ipvps.conf
+#echo "IP=$host" >> /var/lib/scrz-prem/ipvps.conf
+echo "$host" >> /root/domain
 clear
 #GANTI PASSWORD DEFAULT
 function password_default() {
